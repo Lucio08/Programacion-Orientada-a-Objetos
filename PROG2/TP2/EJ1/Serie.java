@@ -28,19 +28,32 @@ public class Serie {
 
     public double obtenerPromedioDeValoracionSerie() {
         double suma = 0;
-        for (Temporada temporada : temporadas) {
-            suma += temporada.obtenerPromedioCalificacionesTemporada();
-        }
-        return suma / temporadas.size(); // largo del arreglo -> cantidad -> contains pregunta si el arreglo tiene algo
-                                         // en especial -> en un if -> add es para agregar algo y el remote para
-                                         // eliminar
-    }
+        int contador = 0;
 
-    public void obtenerEpisodiosVistosDeUnaSerie() {
+        for (Temporada temporada : temporadas) {
+            for (Episodio episodio : temporada.getEpisodios()) {
+                if (episodio.isFlag()) {
+                    suma += episodio.getValoracion();
+                    contador++;
+                }
+            }
+        }
+
+        if (contador == 0) {
+            return 0; // o -1
+        } else {
+            return suma / contador;
+        }
+    } // largo del arreglo -> cantidad -> contains pregunta si el arreglo tiene algo
+      // en especial -> en un if -> add es para agregar algo y el remote para
+      // eliminar
+
+    public int obtenerEpisodiosVistosDeUnaSerie() {
         int cant = 0;
         for (Temporada temporada : temporadas) {
             cant += temporada.totalDeEpisodiosVistos();
         }
+        return cant;
     }
 
     public ArrayList<Temporada> getTemporadas() {
